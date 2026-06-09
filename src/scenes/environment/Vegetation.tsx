@@ -40,14 +40,14 @@ export function Vegetation({
     for (const zone of vegetationZones) {
       const count = Math.max(
         2,
-        Math.floor(zone.density * (capabilities.treeCount / 120))
+        Math.floor(zone.density * (capabilities.treeCount / 100))
       );
       for (let i = 0; i < count; i++) {
         const seed = treeList.length + bushList.length + bambooList.length + i;
         const angle = seededRandom(seed) * Math.PI * 2;
-        const dist = seededRandom(seed + 1) * zone.radius;
-        const x = zone.center[0] + Math.cos(angle) * dist;
-        const z = zone.center[2] + Math.sin(angle) * dist;
+        const dist = seededRandom(seed + 1 ) * zone.radius;
+        const x = zone.center[0] + Math.cos(angle) * dist + 3 ;
+        const z = zone.center[2] + Math.sin(angle) * dist + 3;
         const y = sampleTerrainHeight(x, z);
         const scale =
           0.8 + seededRandom(seed + 2) * (zone.type === "forest" ? 2.5 : 1.2);

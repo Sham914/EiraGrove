@@ -85,7 +85,7 @@ export function LuxuryVilla({
       {lightIntensity > 0 && (
         <pointLight
           position={[0, DECK_HEIGHT + 1, 0]}
-          intensity={lightIntensity}
+          intensity={lightIntensity * 46}
           color="#FFD0A0"
           distance={12}
         />

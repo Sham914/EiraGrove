@@ -74,7 +74,7 @@ function LocationMarker({
     >
       <sphereGeometry args={[0.25, 8, 8]} />
       <meshStandardMaterial
-        color="#C9A962"
+        color="#f9dea3"
         emissive="#C9A962"
         emissiveIntensity={hovered.current ? 0.8 : 0.3}
         transparent
