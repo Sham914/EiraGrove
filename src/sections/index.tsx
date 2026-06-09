@@ -10,35 +10,35 @@ function SectionLayer({ section }: { section: SectionConfig }) {
   return <SectionOverlay section={section} globalProgress={progress} />;
 }
 
-export function IntroSection() {
+export function MountainRevealSection() {
   return <SectionLayer section={sectionsConfig[0]} />;
 }
 
-export function MountainRevealSection() {
+export function ApproachEntranceSection() {
   return <SectionLayer section={sectionsConfig[1]} />;
 }
 
-export function ArrivalSection() {
+export function ReceptionSection() {
   return <SectionLayer section={sectionsConfig[2]} />;
 }
 
-export function LandscapeSection() {
+export function LandscapePathwaysSection() {
   return <SectionLayer section={sectionsConfig[3]} />;
 }
 
-export function InfinityPoolSection() {
+export function PrivateCottagesSection() {
   return <SectionLayer section={sectionsConfig[4]} />;
 }
 
-export function SunsetSection() {
+export function InfinityPoolSection() {
   return <SectionLayer section={sectionsConfig[5]} />;
 }
 
-export function NightSection() {
+export function LuxuryVillaSection() {
   return <SectionLayer section={sectionsConfig[6]} />;
 }
 
-export function CtaSection() {
+export function AerialMasterplanSection() {
   return <SectionLayer section={sectionsConfig[7]} />;
 }
 

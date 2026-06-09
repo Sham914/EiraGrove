@@ -8,6 +8,13 @@ export interface SiteConfig {
     message: string;
     label: string;
   };
+  cta: {
+    primary: string;
+    secondary: string;
+    explore: string;
+    reserveHeadline: string;
+    reserveSubheadline: string;
+  };
   meta: {
     title: string;
     description: string;
@@ -20,9 +27,16 @@ export const siteConfig: SiteConfig = {
   location: "Kakkadampoyil",
   region: "Kerala, India",
   whatsapp: {
-    number: "919876543210",
+    number: "919846981914",
     message: "Hello, I would like to enquire about Eira Grove.",
-    label: "Book via WhatsApp",
+    label: "Book on WhatsApp",
+  },
+  cta: {
+    primary: "Book on WhatsApp",
+    secondary: "Explore Resort",
+    explore: "Explore Eira Grove",
+    reserveHeadline: "Reserve Your Escape",
+    reserveSubheadline: "Your private sanctuary in the Western Ghats awaits.",
   },
   meta: {
     title: "Eira Grove | Luxury Resort in Kakkadampoyil",

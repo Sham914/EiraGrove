@@ -1,11 +1,31 @@
 import type { Vector3Tuple } from "three";
 
+export type CameraMode = "terrain" | "aerial";
+
 export interface CameraKeyframe {
   id: string;
   progress: number;
-  position: Vector3Tuple;
-  lookAt: Vector3Tuple;
+  /** X world coordinate */
+  x: number;
+  /** Z world coordinate */
+  z: number;
+  /** Metres above terrain surface at x,z */
+  eyeHeight: number;
+  /** Look-at X (world) */
+  lookX: number;
+  /** Look-at Z (world) */
+  lookZ: number;
+  /** Metres above terrain at look point */
+  lookHeight: number;
   fov: number;
+  mode?: CameraMode;
+  /** Used when mode is aerial — absolute Y instead of terrain + eyeHeight */
+  absoluteY?: number;
+  lookAbsoluteY?: number;
+  /** Optional extra hold (in normalized progress units) to pause at this keyframe */
+  hold?: number;
+  /** Approach compression [0..1] where >0 compresses the approach to this keyframe */
+  compression?: number;
 }
 
 export interface CameraRailConfig {
@@ -13,113 +33,215 @@ export interface CameraRailConfig {
   defaultFov: number;
 }
 
+/** Camera follows terrain — Y is computed at runtime from height field */
 export const cameraRailConfig: CameraRailConfig = {
   defaultFov: 45,
   keyframes: [
-    {
-      id: "intro-start",
-      progress: 0,
-      position: [0, 8, 45],
-      lookAt: [0, 4, 0],
-      fov: 50,
-    },
-    {
-      id: "intro-end",
-      progress: 0.08,
-      position: [0, 12, 38],
-      lookAt: [0, 6, -5],
-      fov: 48,
-    },
+    // Scene 1 — Mountain reveal (aerial)
     {
       id: "mountain-wide",
-      progress: 0.15,
-      position: [-8, 18, 25],
-      lookAt: [0, 10, -15],
-      fov: 45,
+      progress: 0,
+      x: -20,
+      z: 40,
+      eyeHeight: 0,
+      lookX: 0,
+      lookZ: -35,
+      lookHeight: 0,
+      fov: 52,
+      mode: "aerial",
+      absoluteY: 38,
+      lookAbsoluteY: 8,
+      hold: 0.02,
     },
     {
-      id: "mountain-close",
-      progress: 0.22,
-      position: [-4, 14, 12],
-      lookAt: [2, 8, -20],
+      id: "mountain-descend",
+      progress: 0.125,
+      x: -6,
+      z: 32,
+      eyeHeight: 0,
+      lookX: 0,
+      lookZ: 18,
+      lookHeight: 0,
+      fov: 48,
+      mode: "aerial",
+      absoluteY: 22,
+      lookAbsoluteY: 4,
+    },
+    // Scene 2 — Approach (on driveway, eye level)
+    {
+      id: "approach-far",
+      progress: 0.16,
+      x: 2,
+      z: 37,
+      eyeHeight: 5.75,
+      lookX: 0,
+      lookZ: 22,
+      lookHeight: 2.5,
       fov: 42,
+      compression: 0.18,
     },
     {
-      id: "arrival-approach",
-      progress: 0.3,
-      position: [6, 6, 8],
-      lookAt: [0, 3, -8],
+      id: "approach-gate",
+      progress: 0.25,
+      x: 0.5,
+      z: 24,
+      eyeHeight: 17.7,
+      lookX: 0,
+      lookZ: 8,
+      lookHeight: 2.8,
       fov: 40,
+      hold: 0.03,
     },
+    // Scene 3 — Reception
     {
-      id: "arrival-gate",
-      progress: 0.38,
-      position: [2, 5, -2],
-      lookAt: [0, 2, -15],
+      id: "reception-approach",
+      progress: 0.3,
+      x: 2,
+      z: 14,
+      eyeHeight: 15.7,
+      lookX: 0,
+      lookZ: 8,
+      lookHeight: 4,
       fov: 38,
     },
     {
-      id: "landscape-path",
-      progress: 0.45,
-      position: [-3, 4, -10],
-      lookAt: [0, 2, -25],
-      fov: 38,
+      id: "reception-arrive",
+      progress: 0.375,
+      x: 1,
+      z: 510,
+      eyeHeight: 1.65,
+      lookX: 0,
+      lookZ: 6,
+      lookHeight: 1.5,
+      fov: 36,
+      hold: 0.04,
     },
+    // Scene 4 — Landscape pathways
     {
-      id: "landscape-deep",
-      progress: 0.52,
-      position: [0, 3.5, -18],
-      lookAt: [0, 1.5, -35],
+      id: "path-gazebo",
+      progress: 0.42,
+      x: -3,
+      z: 0,
+      eyeHeight: 7.65,
+      lookX: -10,
+      lookZ: -5,
+      lookHeight: 3,
       fov: 36,
     },
+    {
+      id: "path-garden",
+      progress: 0.5,
+      x: -2,
+      z: -10,
+      eyeHeight: 21.65,
+      lookX: 0,
+      lookZ: -18,
+      lookHeight: 3,
+      fov: 35,
+      compression: 0.12,
+    },
+    // Scene 5 — Private cottages
+    {
+      id: "cottage-path",
+      progress: 0.56,
+      x: 0,
+      z: -18,
+      eyeHeight: 15.65,
+      lookX: -8,
+      lookZ: -18,
+      lookHeight: -4,
+      fov: 34,
+    },
+    {
+      id: "cottage-intimate",
+      progress: 0.625,
+      x: -2,
+      z: -22,
+      eyeHeight: 12.65,
+      lookX: 6,
+      lookZ: -22,
+      lookHeight: -2.5,
+      fov: 63,
+      hold: 0.035,
+    },
+    // Scene 6 — Infinity pool
     {
       id: "pool-approach",
-      progress: 0.58,
-      position: [8, 5, -28],
-      lookAt: [0, 1, -40],
-      fov: 35,
-    },
-    {
-      id: "pool-reveal",
-      progress: 0.66,
-      position: [4, 3, -35],
-      lookAt: [0, 0.5, -48],
+      progress: 0.68,
+      x: 6,
+      z: -32,
+      eyeHeight: 13.65,
+      lookX: 14,
+      lookZ: -42,
+      lookHeight: 2.5,
       fov: 34,
+      compression: 0.22,
     },
     {
-      id: "sunset-rise",
-      progress: 0.72,
-      position: [-2, 6, -32],
-      lookAt: [0, 2, -50],
-      fov: 36,
-    },
-    {
-      id: "sunset-peak",
-      progress: 0.78,
-      position: [0, 8, -38],
-      lookAt: [0, 3, -55],
-      fov: 38,
-    },
-    {
-      id: "night-descend",
-      progress: 0.85,
-      position: [3, 4, -42],
-      lookAt: [0, 1.5, -52],
-      fov: 36,
-    },
-    {
-      id: "night-intimate",
-      progress: 0.92,
-      position: [0, 3, -48],
-      lookAt: [0, 1, -58],
-      fov: 34,
-    },
-    {
-      id: "cta-final",
-      progress: 1,
-      position: [0, 2.5, -52],
-      lookAt: [0, 1, -62],
+      id: "pool-edge",
+      progress: 0.75,
+      x: 11,
+      z: -40,
+      eyeHeight: 1.6,
+      lookX: 14,
+      lookZ: -48,
+      lookHeight: 2,
       fov: 32,
+      hold: 0.08,
+    },
+    // Scene 7 — Luxury villa
+    {
+      id: "villa-ascent",
+      progress: 0.8,
+      x: -6,
+      z: -14,
+      eyeHeight: 1.7,
+      lookX: -12,
+      lookZ: -14,
+      lookHeight: 6,
+      fov: 34,
+    },
+    {
+      id: "villa-hero",
+      progress: 0.875,
+      x: -9,
+      z: -12,
+      eyeHeight: 1.75,
+      lookX: -12,
+      lookZ: -16,
+      lookHeight: 7,
+      fov: 32,
+      hold: 0.03,
+    },
+    // Scene 8 — Aerial masterplan
+    {
+      id: "aerial-rise",
+      progress: 0.92,
+      x: 0,
+      z: -5,
+      eyeHeight: 0,
+      lookX: 0,
+      lookZ: -28,
+      lookHeight: 0,
+      fov: 48,
+      mode: "aerial",
+      absoluteY: 42,
+      lookAbsoluteY: 2,
+    },
+    {
+      id: "aerial-final",
+      progress: 1,
+      x: 0,
+      z: -15,
+      eyeHeight: 0,
+      lookX: 0,
+      lookZ: -32,
+      lookHeight: 0,
+      fov: 52,
+      mode: "aerial",
+      absoluteY: 52,
+      lookAbsoluteY: 0,
+      hold: 0.06,
     },
   ],
 };

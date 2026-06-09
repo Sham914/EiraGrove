@@ -1,3 +1,92 @@
+export interface DayCyclePhase {
+  id: string;
+  progressStart: number;
+  progressEnd: number;
+  topColor: string;
+  horizonColor: string;
+  fogColor: string;
+  fogNear: number;
+  fogFar: number;
+  ambientIntensity: number;
+  sunIntensity: number;
+  sunColor: string;
+  sunPosition: [number, number, number];
+  poolLightIntensity: number;
+  architecturalLightIntensity: number;
+  starVisibility: number;
+}
+
+export const dayCycleConfig: DayCyclePhase[] = [
+  {
+    id: "day",
+    progressStart: 0,
+    progressEnd: 0.42,
+    topColor: "#76A9D8",
+    horizonColor: "#DCECF6",
+    fogColor: "#C0D2DF",
+    fogNear: 22,
+    fogFar: 100,
+    ambientIntensity: 0.66,
+    sunIntensity: 1.12,
+    sunColor: "#FFF5E4",
+    sunPosition: [30, 48, 20],
+    poolLightIntensity: 0,
+    architecturalLightIntensity: 0.12,
+    starVisibility: 0,
+  },
+  {
+    id: "golden-hour",
+    progressStart: 0.42,
+    progressEnd: 0.68,
+    topColor: "#8C7BB7",
+    horizonColor: "#F2C56A",
+    fogColor: "#D8AD80",
+    fogNear: 18,
+    fogFar: 88,
+    ambientIntensity: 0.5,
+    sunIntensity: 0.9,
+    sunColor: "#FFC06A",
+    sunPosition: [-28, 24, 16],
+    poolLightIntensity: 0.18,
+    architecturalLightIntensity: 0.45,
+    starVisibility: 0,
+  },
+  {
+    id: "sunset",
+    progressStart: 0.68,
+    progressEnd: 0.84,
+    topColor: "#4B315F",
+    horizonColor: "#E87B4A",
+    fogColor: "#8C634D",
+    fogNear: 15,
+    fogFar: 76,
+    ambientIntensity: 0.33,
+    sunIntensity: 0.42,
+    sunColor: "#FF7A49",
+    sunPosition: [-36, 10, 12],
+    poolLightIntensity: 0.62,
+    architecturalLightIntensity: 0.82,
+    starVisibility: 0.14,
+  },
+  {
+    id: "night",
+    progressStart: 0.84,
+    progressEnd: 1,
+    topColor: "#0A0E18",
+    horizonColor: "#121B30",
+    fogColor: "#0C1220",
+    fogNear: 12,
+    fogFar: 65,
+    ambientIntensity: 0.12,
+    sunIntensity: 0.02,
+    sunColor: "#162345",
+    sunPosition: [0, -10, 0],
+    poolLightIntensity: 1.15,
+    architecturalLightIntensity: 1.0,
+    starVisibility: 0.82,
+  },
+];
+
 export interface ResortMarker {
   id: string;
   label: string;
@@ -7,91 +96,21 @@ export interface ResortMarker {
 
 export const resortMarkersConfig: ResortMarker[] = [
   {
-    id: "main-lodge",
-    label: "Main Lodge",
-    position: [0, 2.5, -12],
-    description: "Central reception and dining pavilion",
+    id: "reception",
+    label: "Reception",
+    position: [0, 0, 8],
+    description: "Main pavilion and arrival lounge",
   },
   {
-    id: "villa-cluster",
-    label: "Villa Cluster",
-    position: [-6, 2, -18],
-    description: "Private hillside accommodations",
+    id: "pool",
+    label: "Infinity Pool",
+    position: [14, 0, -42],
+    description: "Horizon-edge pool overlooking the valley",
   },
   {
-    id: "wellness",
-    label: "Wellness Pavilion",
-    position: [5, 2, -22],
-    description: "Spa and meditation spaces",
-  },
-];
-
-export interface SkyPhase {
-  id: string;
-  progressStart: number;
-  progressEnd: number;
-  topColor: string;
-  horizonColor: string;
-  fogColor: string;
-  fogDensity: number;
-  ambientIntensity: number;
-  sunIntensity: number;
-}
-
-export const skyPhasesConfig: SkyPhase[] = [
-  {
-    id: "dawn",
-    progressStart: 0,
-    progressEnd: 0.22,
-    topColor: "#1a2332",
-    horizonColor: "#4a5568",
-    fogColor: "#2d3748",
-    fogDensity: 0.035,
-    ambientIntensity: 0.35,
-    sunIntensity: 0.6,
-  },
-  {
-    id: "morning",
-    progressStart: 0.22,
-    progressEnd: 0.52,
-    topColor: "#87CEEB",
-    horizonColor: "#E8D5B7",
-    fogColor: "#B8C5D6",
-    fogDensity: 0.022,
-    ambientIntensity: 0.55,
-    sunIntensity: 1.0,
-  },
-  {
-    id: "afternoon",
-    progressStart: 0.52,
-    progressEnd: 0.66,
-    topColor: "#6BB3D9",
-    horizonColor: "#F5E6C8",
-    fogColor: "#A8C4D4",
-    fogDensity: 0.018,
-    ambientIntensity: 0.6,
-    sunIntensity: 1.1,
-  },
-  {
-    id: "sunset",
-    progressStart: 0.66,
-    progressEnd: 0.78,
-    topColor: "#2D1B4E",
-    horizonColor: "#E87B4A",
-    fogColor: "#C4785A",
-    fogDensity: 0.025,
-    ambientIntensity: 0.45,
-    sunIntensity: 0.7,
-  },
-  {
-    id: "night",
-    progressStart: 0.78,
-    progressEnd: 1,
-    topColor: "#0D1117",
-    horizonColor: "#1a2744",
-    fogColor: "#0f1623",
-    fogDensity: 0.03,
-    ambientIntensity: 0.15,
-    sunIntensity: 0.05,
+    id: "villas",
+    label: "Luxury Villas",
+    position: [-12, 0, -14],
+    description: "Elevated timber villas with panoramic decks",
   },
 ];

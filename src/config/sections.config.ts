@@ -1,12 +1,12 @@
 export type SectionId =
-  | "intro"
   | "mountain-reveal"
-  | "arrival"
-  | "landscape"
+  | "approach-entrance"
+  | "reception"
+  | "landscape-pathways"
+  | "private-cottages"
   | "infinity-pool"
-  | "sunset"
-  | "night"
-  | "cta";
+  | "luxury-villa"
+  | "aerial-masterplan";
 
 export interface SectionConfig {
   id: SectionId;
@@ -20,76 +20,76 @@ export interface SectionConfig {
 
 export const sectionsConfig: SectionConfig[] = [
   {
-    id: "intro",
-    label: "Intro",
-    scrollStart: 0,
-    scrollEnd: 0.08,
-    headline: "Eira Grove",
-    subheadline: "Kakkadampoyil",
-    body: "An invitation to arrive slowly.",
-  },
-  {
     id: "mountain-reveal",
     label: "Mountain Reveal",
-    scrollStart: 0.08,
-    scrollEnd: 0.22,
+    scrollStart: 0,
+    scrollEnd: 0.125,
     headline: "Rising from the Mist",
-    subheadline: "Western Ghats",
-    body: "Layered peaks emerge through morning fog — a sanctuary suspended above the valley.",
+    subheadline: "Kakkadampoyil",
+    body: "Layered Western Ghats peaks emerge through morning fog — your sanctuary awaits above the valley.",
   },
   {
-    id: "arrival",
-    label: "Arrival",
-    scrollStart: 0.22,
-    scrollEnd: 0.38,
+    id: "approach-entrance",
+    label: "Approach",
+    scrollStart: 0.125,
+    scrollEnd: 0.25,
     headline: "The Approach",
-    subheadline: "Your journey begins",
-    body: "Follow the winding path to where luxury meets the wilderness.",
+    subheadline: "Arrive Slowly",
+    body: "A cobblestone drive winds through stone walls and lush gardens toward the gate.",
   },
   {
-    id: "landscape",
-    label: "Landscape Journey",
-    scrollStart: 0.38,
-    scrollEnd: 0.52,
+    id: "reception",
+    label: "Reception",
+    scrollStart: 0.25,
+    scrollEnd: 0.375,
+    headline: "Welcome Home",
+    subheadline: "Reception Pavilion",
+    body: "Warm light spills from the open pavilion — the heart of Eira Grove.",
+  },
+  {
+    id: "landscape-pathways",
+    label: "Pathways",
+    scrollStart: 0.375,
+    scrollEnd: 0.5,
     headline: "Through the Grove",
-    subheadline: "Nature's corridor",
-    body: "Terraced paths weave through ancient canopy and curated gardens.",
+    subheadline: "Garden Paths",
+    body: "Flagstone steps and bamboo corridors weave through curated wilderness.",
+  },
+  {
+    id: "private-cottages",
+    label: "Cottages",
+    scrollStart: 0.5,
+    scrollEnd: 0.625,
+    headline: "Private Retreats",
+    subheadline: "Hillside Cottages",
+    body: "Terracotta gables and white walls nestle into the slope — each a secluded haven.",
   },
   {
     id: "infinity-pool",
     label: "Infinity Pool",
-    scrollStart: 0.52,
-    scrollEnd: 0.66,
+    scrollStart: 0.625,
+    scrollEnd: 0.75,
     headline: "Edge of Infinity",
-    subheadline: "Horizon pool",
-    body: "Water merges with sky — a mirror to the mountains beyond.",
+    subheadline: "Horizon Pool",
+    body: "Water merges with the mountain vista — a mirror to the sky.",
   },
   {
-    id: "sunset",
-    label: "Sunset",
-    scrollStart: 0.66,
-    scrollEnd: 0.78,
-    headline: "Golden Hour",
-    subheadline: "As day softens",
-    body: "Warm light washes the ridgelines in amber and rose.",
+    id: "luxury-villa",
+    label: "Luxury Villas",
+    scrollStart: 0.75,
+    scrollEnd: 0.875,
+    headline: "Elevated Living",
+    subheadline: "Stilt Villas",
+    body: "Timber decks and glass walls float above the canopy with panoramic views.",
   },
   {
-    id: "night",
-    label: "Night Experience",
-    scrollStart: 0.78,
-    scrollEnd: 0.92,
-    headline: "Under Starlight",
-    subheadline: "Evening sanctuary",
-    body: "Soft illumination guides you through an intimate nocturnal landscape.",
-  },
-  {
-    id: "cta",
-    label: "Book",
-    scrollStart: 0.92,
+    id: "aerial-masterplan",
+    label: "Masterplan",
+    scrollStart: 0.875,
     scrollEnd: 1,
-    headline: "Your Stay Awaits",
-    subheadline: "Reserve your experience",
-    body: "Connect with us to begin planning your escape to Eira Grove.",
+    headline: "Eira Grove",
+    subheadline: "The Complete Vision",
+    body: "From entrance to infinity edge — a living resort sculpted into the hillside.",
   },
 ];
 

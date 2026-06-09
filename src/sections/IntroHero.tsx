@@ -8,7 +8,7 @@ import { smoothstep } from "@/utils/math";
 
 export function IntroHero() {
   const progress = useScrollProgress();
-  const opacity = 1 - smoothstep(0, 0.06, progress);
+  const opacity = 1 - smoothstep(0, 0.08, progress);
 
   if (opacity <= 0.01) return null;
 

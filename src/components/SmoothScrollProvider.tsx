@@ -12,7 +12,7 @@ export function SmoothScrollProvider({
   const containerRef = useRef<HTMLDivElement>(null);
   useCinematicScroll(containerRef);
 
-  const sectionHeight = 100;
+  const sectionHeight = 125;
 
   return (
     <div ref={containerRef} className="relative">

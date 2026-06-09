@@ -1,10 +1,35 @@
 import type { CameraKeyframe } from "@/config/camera-rail.config";
 import { lerp } from "./math";
+import { sampleTerrainHeight } from "./terrain-height";
 
 export interface CameraState {
   position: [number, number, number];
   lookAt: [number, number, number];
   fov: number;
+}
+
+function resolveKeyframe(k: CameraKeyframe): CameraState {
+  if (k.mode === "aerial") {
+    return {
+      position: [k.x, k.absoluteY ?? 30, k.z],
+      lookAt: [k.lookX, k.lookAbsoluteY ?? 0, k.lookZ],
+      fov: k.fov,
+    };
+  }
+
+  return {
+    position: [
+      k.x,
+      sampleTerrainHeight(k.x, k.z) + k.eyeHeight,
+      k.z,
+    ],
+    lookAt: [
+      k.lookX,
+      sampleTerrainHeight(k.lookX, k.lookZ) + k.lookHeight,
+      k.lookZ,
+    ],
+    fov: k.fov,
+  };
 }
 
 function lerpTuple(
@@ -20,35 +45,60 @@ export function sampleCameraRail(
   progress: number
 ): CameraState {
   const sorted = [...keyframes].sort((a, b) => a.progress - b.progress);
-
-  if (progress <= sorted[0].progress) {
-    const k = sorted[0];
-    return { position: k.position, lookAt: k.lookAt, fov: k.fov };
-  }
-
-  const last = sorted[sorted.length - 1];
-  if (progress >= last.progress) {
-    return { position: last.position, lookAt: last.lookAt, fov: last.fov };
-  }
-
+  // Build timeline including holds (extra length at keyframes)
+  const baseLengths: number[] = [];
+  const holds: number[] = [];
   for (let i = 0; i < sorted.length - 1; i++) {
-    const current = sorted[i];
-    const next = sorted[i + 1];
-    if (progress >= current.progress && progress <= next.progress) {
-      const range = next.progress - current.progress;
-      const t = range > 0 ? (progress - current.progress) / range : 0;
-      const eased = t * t * (3 - 2 * t);
+    baseLengths.push(sorted[i + 1].progress - sorted[i].progress);
+  }
+  for (let i = 0; i < sorted.length; i++) {
+    holds.push(sorted[i].hold ?? 0);
+  }
+
+  const totalBase = baseLengths.reduce((s, v) => s + v, 0);
+  const totalHolds = holds.reduce((s, v) => s + v, 0);
+  const totalLength = totalBase + totalHolds;
+
+  // Map input progress [0..1] into timeline position
+  const timelinePos = progress * totalLength;
+
+  // Walk through segments and holds to find where timelinePos lands
+  let cursor = 0;
+  for (let i = 0; i < sorted.length - 1; i++) {
+    const segLen = baseLengths[i];
+    const segStart = cursor;
+    const segEnd = segStart + segLen;
+    if (timelinePos >= segStart && timelinePos <= segEnd) {
+      // inside motion segment between sorted[i] -> sorted[i+1]
+      const localT = segLen > 0 ? (timelinePos - segStart) / segLen : 0;
+      // apply compression approaching next keyframe
+      const next = sorted[i + 1];
+      const compression = next.compression ?? 0;
+      const tComp = Math.pow(localT, Math.max(0.0001, 1 - compression));
+      const eased = tComp * tComp * (3 - 2 * tComp);
+
+      const a = resolveKeyframe(sorted[i]);
+      const b = resolveKeyframe(next);
+
       return {
-        position: lerpTuple(current.position, next.position, eased),
-        lookAt: lerpTuple(current.lookAt, next.lookAt, eased),
-        fov: lerp(current.fov, next.fov, eased),
+        position: lerpTuple(a.position, b.position, eased),
+        lookAt: lerpTuple(a.lookAt, b.lookAt, eased),
+        fov: lerp(a.fov, b.fov, eased),
       };
     }
+
+    cursor = segEnd;
+
+    // hold at the next keyframe
+    const holdLen = holds[i + 1] ?? 0;
+    const holdStart = cursor;
+    const holdEnd = holdStart + holdLen;
+    if (timelinePos >= holdStart && timelinePos <= holdEnd) {
+      return resolveKeyframe(sorted[i + 1]);
+    }
+    cursor = holdEnd;
   }
 
-  return {
-    position: last.position,
-    lookAt: last.lookAt,
-    fov: last.fov,
-  };
+  // If beyond last segment, return final keyframe
+  return resolveKeyframe(sorted[sorted.length - 1]);
 }

@@ -5,6 +5,7 @@ import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { setScrollProgress } from "@/utils/scroll-store";
+import { getAppState, subscribeAppState } from "@/store/app-store";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -40,14 +41,27 @@ export function useCinematicScroll(
       end: "bottom bottom",
       scrub: 0.8,
       onUpdate: (self) => {
-        setScrollProgress(self.progress);
+        if (getAppState().mode === "scroll") {
+          setScrollProgress(self.progress);
+        }
       },
+    });
+
+    const unsubApp = subscribeAppState(() => {
+      if (getAppState().mode === "explore") {
+        lenis.stop();
+        trigger.disable();
+      } else {
+        lenis.start();
+        trigger.enable();
+      }
     });
 
     ScrollTrigger.refresh();
     setScrollProgress(0);
 
     return () => {
+      unsubApp();
       trigger.kill();
       gsap.ticker.remove(tickerCallback);
       lenis.destroy();
