@@ -1,4 +1,5 @@
 export type AppMode = "scroll" | "explore";
+export type ExploreVisionMode = "night" | "day";
 export type LocationId =
   | "infinity-pool"
   | "private-villas"
@@ -12,6 +13,7 @@ type Listener = () => void;
 
 interface AppState {
   mode: AppMode;
+  exploreVisionMode: ExploreVisionMode;
   reducedMotion: boolean;
   fallbackMode: boolean;
   hoveredLocation: LocationId;
@@ -21,6 +23,7 @@ interface AppState {
 
 let state: AppState = {
   mode: "scroll",
+  exploreVisionMode: "night",
   reducedMotion: false,
   fallbackMode: false,
   hoveredLocation: null,
@@ -46,6 +49,14 @@ export function subscribeAppState(listener: Listener): () => void {
 export function setAppMode(mode: AppMode): void {
   if (state.mode === mode) return;
   state = { ...state, mode };
+  notify();
+}
+
+export function setExploreVisionMode(
+  exploreVisionMode: ExploreVisionMode
+): void {
+  if (state.exploreVisionMode === exploreVisionMode) return;
+  state = { ...state, exploreVisionMode };
   notify();
 }
 
@@ -79,6 +90,7 @@ export function enterExploreMode(): void {
   state = {
     ...state,
     mode: "explore",
+    exploreVisionMode: "night",
     explorePromptVisible: false,
   };
   notify();

@@ -2,11 +2,16 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppState } from "@/hooks/useAppState";
-import { setAppMode, setAudioEnabled, setReducedMotion } from "@/store/app-store";
-import { Volume2, VolumeX, Minimize2, Compass } from "lucide-react";
+import {
+  setAppMode,
+  setAudioEnabled,
+  setExploreVisionMode,
+  setReducedMotion,
+} from "@/store/app-store";
+import { Volume2, VolumeX, Minimize2, Compass, Moon, SunMedium } from "lucide-react";
 
 export function AccessibilityControls() {
-  const { mode, audioEnabled, reducedMotion } = useAppState();
+  const { mode, audioEnabled, reducedMotion, exploreVisionMode } = useAppState();
 
   return (
     <div className="pointer-events-auto fixed right-4 top-4 z-40 flex flex-col gap-2 md:right-6 md:top-6">
@@ -26,6 +31,26 @@ export function AccessibilityControls() {
       >
         <Minimize2 className="h-4 w-4" strokeWidth={1.5} />
       </ControlButton>
+      {mode === "explore" && (
+        <ControlButton
+          label={
+            exploreVisionMode === "night"
+              ? "Switch to day vision"
+              : "Switch to night vision"
+          }
+          onClick={() =>
+            setExploreVisionMode(
+              exploreVisionMode === "night" ? "day" : "night"
+            )
+          }
+        >
+          {exploreVisionMode === "night" ? (
+            <SunMedium className="h-4 w-4" strokeWidth={1.5} />
+          ) : (
+            <Moon className="h-4 w-4" strokeWidth={1.5} />
+          )}
+        </ControlButton>
+      )}
       {mode === "explore" && (
         <ControlButton
           label="Return to journey"

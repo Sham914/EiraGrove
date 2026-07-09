@@ -9,7 +9,7 @@ import { smoothstep } from "@/utils/math";
 
 export function useAmbientAudio() {
   const progress = useScrollProgress();
-  const { audioEnabled, mode } = useAppState();
+  const { audioEnabled, mode, exploreVisionMode } = useAppState();
 
   useEffect(() => {
     const engine = getAmbientEngine();
@@ -27,8 +27,9 @@ export function useAmbientAudio() {
   }, [audioEnabled]);
 
   useEffect(() => {
-    getAmbientEngine().updateMix(mode === "explore" ? 0.85 : progress);
-  }, [progress, mode]);
+    const exploreProgress = exploreVisionMode === "day" ? 0.34 : 0.9;
+    getAmbientEngine().updateMix(mode === "explore" ? exploreProgress : progress);
+  }, [progress, mode, exploreVisionMode]);
 
   useEffect(() => {
     const shouldShow = smoothstep(0.9, 0.97, progress) > 0.1;

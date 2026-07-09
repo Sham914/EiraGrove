@@ -16,8 +16,9 @@ import { GodRays } from "@/scenes/atmosphere/GodRays";
 import { MountainHaze } from "@/scenes/atmosphere/MountainHaze";
 import { Fireflies, WaterParticles } from "@/scenes/atmosphere/Fireflies";
 import { LocationMarkers } from "@/scenes/interactions/LocationMarkers";
-import { useAppMode, useReducedMotion } from "@/hooks/useAppState";
+import { useReducedMotion } from "@/hooks/useAppState";
 import type { DeviceCapabilities } from "@/hooks/useDeviceCapability";
+import { useAppState } from "@/hooks/useAppState";
 
 const CloudLayer = lazy(() =>
   import("@/scenes/environment/CloudLayer").then((m) => ({
@@ -62,8 +63,14 @@ export function SceneEnvironment({
   scrollProgress,
   capabilities,
 }: SceneEnvironmentProps) {
-  const cycle = useDayCycleState(scrollProgress);
-  const mode = useAppMode();
+  const { mode, exploreVisionMode } = useAppState();
+  const lightingProgress =
+    mode === "explore"
+      ? exploreVisionMode === "day"
+        ? 0.34
+        : 0.9
+      : scrollProgress;
+  const cycle = useDayCycleState(lightingProgress);
   const reducedMotion = useReducedMotion();
   const windStrength = reducedMotion ? 0.2 : 0.6 + scrollProgress * 0.4;
   const atmosphereEnabled =
@@ -74,7 +81,7 @@ export function SceneEnvironment({
 
   return (
     <>
-      <DynamicDayCycle scrollProgress={scrollProgress} />
+      <DynamicDayCycle scrollProgress={lightingProgress} />
       <AtmosphericEffects
         scrollProgress={scrollProgress}
         fogColor={cycle.fogColor}
