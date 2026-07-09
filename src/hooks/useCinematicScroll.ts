@@ -13,10 +13,13 @@ export function useCinematicScroll(
   containerRef: React.RefObject<HTMLElement | null>
 ) {
   const lenisRef = useRef<Lenis | null>(null);
+  const modeEnabledRef = useRef<boolean>(true);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+
+    modeEnabledRef.current = getAppState().mode !== "explore";
 
     const lenis = new Lenis({
       duration: 1.4,
@@ -48,7 +51,11 @@ export function useCinematicScroll(
     });
 
     const unsubApp = subscribeAppState(() => {
-      if (getAppState().mode === "explore") {
+      const shouldRun = getAppState().mode !== "explore";
+      if (modeEnabledRef.current === shouldRun) return;
+      modeEnabledRef.current = shouldRun;
+
+      if (!shouldRun) {
         lenis.stop();
         trigger.disable();
       } else {

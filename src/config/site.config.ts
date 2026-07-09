@@ -27,7 +27,7 @@ export const siteConfig: SiteConfig = {
   location: "Kakkadampoyil",
   region: "Kerala, India",
   whatsapp: {
-    number: "919846981914",
+    number: "917034394958",
     message: "Hello, I would like to enquire about Eira Grove.",
     label: "Book on WhatsApp",
   },

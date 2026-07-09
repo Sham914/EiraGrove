@@ -61,11 +61,13 @@ export function setExploreVisionMode(
 }
 
 export function setReducedMotion(reduced: boolean): void {
+  if (state.reducedMotion === reduced) return;
   state = { ...state, reducedMotion: reduced };
   notify();
 }
 
 export function setFallbackMode(fallback: boolean): void {
+  if (state.fallbackMode === fallback) return;
   state = { ...state, fallbackMode: fallback };
   notify();
 }
@@ -77,11 +79,13 @@ export function setHoveredLocation(id: LocationId): void {
 }
 
 export function setAudioEnabled(enabled: boolean): void {
+  if (state.audioEnabled === enabled) return;
   state = { ...state, audioEnabled: enabled };
   notify();
 }
 
 export function setExplorePromptVisible(visible: boolean): void {
+  if (state.explorePromptVisible === visible) return;
   state = { ...state, explorePromptVisible: visible };
   notify();
 }
