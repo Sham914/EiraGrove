@@ -1,92 +1,44 @@
 # Eira Grove
+*Where the mountains meet stillness*
 
-A premium cinematic 3D website for **Eira Grove**, an upcoming luxury resort in Kakkadampoyil. Visitors travel through a living stylized resort environment via scroll-controlled camera progression.
+Welcome to the digital gateway of **Eira Grove** — an upcoming luxury resort nestled in the misty highlands of Kakkadampoyil, Kerala, India. 
 
-## Tech Stack
+This platform offers a premium, cinematic 3D experience that invites future guests to explore a stylized, living recreation of the resort before its official launch.
 
-- Next.js 15 · React · TypeScript · Tailwind CSS
-- GSAP · ScrollTrigger · Lenis smooth scroll
-- React Three Fiber · Three.js · Drei
-- Framer Motion
+---
 
-## Getting Started
+## 🌿 About The Resort
 
-```bash
-npm install
-npm run dev
-```
+Eira Grove is meticulously designed as a private sanctuary in the Western Ghats, blending seamlessly with the natural landscape while offering unparalleled luxury. Sculpted into the hillside, the resort provides an immersive escape into wilderness, tranquility, and refined architecture.
 
-Open [http://localhost:3000](http://localhost:3000).
+### Key Highlights & Accommodations
 
-## Phase 2 — Living Resort Environment
+| Feature | Description | The Experience |
+| :--- | :--- | :--- |
+| **Reception Pavilion** | An open, warm-lit architectural masterpiece crafted from stone and wood. | The heart of Eira Grove and your welcoming gateway. |
+| **Hillside Cottages** | Terracotta gables and white walls gently nestled into the natural slopes. | Secluded havens offering ultimate privacy and comfort. |
+| **Luxury Stilt Villas** | Elevated timber decks with glass walls floating above the forest canopy. | Unobstructed, panoramic views of the majestic Western Ghats. |
+| **Infinity Pool** | A horizon pool where the water edge merges with the mountain vista. | A mirror to the sky, perfect for peaceful golden hour swims. |
+| **Curated Pathways** | Flagstone steps and trails weaving through bamboo corridors. | Intimate nature walks through meticulously curated wilderness. |
 
-The 3D world is a **high-fidelity stylized recreation** inspired by the architectural walkthrough video (not a 1:1 clone).
+---
 
-### 8-Scene Scroll Journey
+## 🎬 The Digital Experience
 
-| Scene | Scroll   | Experience                    |
-|-------|----------|-------------------------------|
-| 1     |0–12.5%   | Mountain reveal through mist  |
-| 2     |12.5–25%  | Approach toward entrance gate |
-| 3     |25–37.5%  | Reception pavilion            |
-| 4     |37.5–50%  | Landscape pathways & gazebo   |
-| 5     |50–62.5%  | Private hillside cottages     |
-| 6     |62.5–75%  | Infinity pool reveal          |
-| 7     |75–87.5%  | Luxury stilt villas           |
-| 8     |87.5–100% | Aerial masterplan (night)     |
+Our website is crafted as a cinematic journey, guiding visitors through a dynamic 3D environment. As you explore the digital twin of Eira Grove, the environment reacts and transitions beautifully from the cool morning mist to the warm golden hour, and finally, to a serene night under the stars.
 
-### Environment Systems
+### The Journey at a Glance
 
-- **Terrain** — Procedural hillside with terraced slope
-- **Vegetation** — Instanced trees, bamboo, bushes (LOD by device)
-- **Architecture** — Gate, reception, gazebo, cottages, villas, signage
-- **Water** — Custom infinity pool shader (ripples, fresnel, underwater glow)
-- **Day cycle** — Morning → golden hour → sunset → night via scroll
-- **Life** — Clouds, bird flocks, wind-animated grass & trees, atmospheric fog
+1. **Rising from the Mist:** The layered peaks of the Western Ghats reveal themselves through the morning fog.
+2. **The Approach:** A slow, guided wind through cobblestone drives, stone walls, and lush green gardens.
+3. **Elevated Living:** A close-up exploration of the stunning architecture defining the cottages and stilt villas.
+4. **Edge of Infinity:** Discovering the infinity pool during a serene sunset.
+5. **Nightfall Awakening:** Experiencing the complete resort masterplan illuminated gently under starlight.
 
-## Architecture
+---
 
-```
-src/
-├── app/                    # Next.js app router
-├── components/             # Scroll shell, overlays, CTA
-├── config/
-│   ├── site.config.ts      # Brand, WhatsApp
-│   ├── sections.config.ts  # 8 scenes + copy
-│   ├── camera-rail.config.ts
-│   ├── environment.config.ts  # Day cycle phases
-│   └── resort-layout.config.ts  # Buildings, paths, vegetation zones
-├── hooks/
-│   ├── useCinematicScroll.ts
-│   └── useDeviceCapability.ts  # LOD tiers (high/medium/low)
-├── scenes/
-│   ├── architecture/       # Modular building components
-│   ├── environment/      # Terrain, vegetation, clouds, birds
-│   ├── water/              # Infinity pool + shader
-│   ├── lighting/           # Dynamic day cycle
-│   └── shaders/            # Pool water GLSL
-├── sections/               # HTML overlays
-└── utils/                  # Camera rail, day cycle, terrain height
-```
+> **Coming Soon**
+> *Eira Grove is currently under development. Stay tuned for our grand opening, where your private sanctuary in the Western Ghats awaits.*
 
-## Configuration
-
-All layout and camera data is config-driven:
-
-| File                     | Edit to change                                    |
-|--------------------------|---------------------------------------------------|
-| `resort-layout.config.ts`| Building positions, paths, pool, vegetation zones |
-| `camera-rail.config.ts`  | Camera keyframes along the journey                |
-| `environment.config.ts`  | Day/night lighting phases                         |
-| `sections.config.ts`     | Section scroll ranges and headlines               |
-
-## Performance
-
-- **LOD tiers** — Tree/grass/cloud counts scale by device (`useDeviceCapability`)
-- **Lazy loading** — Clouds and birds load asynchronously
-- **Instancing** — Vegetation and grass use `InstancedMesh`
-- **DPR scaling** — `[1, 1.5]` desktop · `[0.75, 1]` mobile low tier
-
-## Future Upgrades
-
-Replace stylized geometry in `scenes/architecture/` with GLTF assets from `src/assets/`. Camera rail and resort layout config remain unchanged.
+**Contact & Reservations**
+For early inquiries, visitors can connect with our concierge directly through the WhatsApp integration on the website.
