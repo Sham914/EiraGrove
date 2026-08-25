@@ -31,9 +31,12 @@ export function FinalCtaPanel() {
           <h2 className="font-display mb-2 text-center text-3xl font-light text-grove-cream md:text-4xl">
             {siteConfig.cta.reserveHeadline}
           </h2>
-          <p className="font-body mb-8 max-w-md text-center text-sm text-grove-cream/60">
+          <p className="font-body mb-4 max-w-md text-center text-sm text-grove-cream/60">
             {siteConfig.cta.reserveSubheadline}
           </p>
+          <div className="mb-8 inline-block rounded-full border border-grove-gold/30 bg-grove-gold/10 px-4 py-1.5 text-xs tracking-[0.2em] text-grove-gold uppercase">
+            Coming Soon
+          </div>
           <div className="flex flex-col gap-4 sm:flex-row">
             <WhatsAppCta />
             <ExploreCta />
